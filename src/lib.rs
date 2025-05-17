@@ -1,41 +1,6 @@
-use std::fs::{File, OpenOptions};
-use std::io::{self, Read, Write, BufReader, BufWriter};
-use std::path::Path;
+pub mod io;
 
-use memmap2::{Mmap, MmapMut};
-
-pub fn write_buffered(path: &Path, data: &[u8]) -> io::Result<()> {
-    let file = File::create(path)?;
-    let mut writer = BufWriter::new(file);
-    writer.write_all(data)?;
-    writer.flush()
-}
-
-pub fn read_buffered(path: &Path) -> io::Result<usize> {
-    let file = File::open(path)?;
-    let mut reader = BufReader::new(file);
-    let mut buf = Vec::new();
-    reader.read_to_end(&mut buf).map(|size| size)
-}
-
-pub fn write_mmap(path: &Path, data: &[u8]) -> io::Result<()> {
-    let file = OpenOptions::new()
-        .read(true)
-        .write(true)
-        .create(true)
-        .truncate(true)
-        .open(path)?;
-    file.set_len(data.len() as u64)?;
-    let mut mmap = unsafe { MmapMut::map_mut(&file)? };
-    mmap[..].copy_from_slice(data);
-    mmap.flush()
-}
-
-pub fn read_mmap(path: &Path) -> io::Result<usize> {
-    let file = File::open(path)?;
-    let mmap = unsafe { Mmap::map(&file)? };
-    Ok(mmap.len())
-}
+pub use io::{read_buffered, read_mmap, write_buffered, write_mmap};
 
 #[cfg(test)]
 mod tests {
