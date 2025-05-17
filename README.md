@@ -2,6 +2,8 @@
 
 This project benchmarks different approaches to reading and writing files in Rust. It currently compares buffered I/O with memory–mapped files using [criterion].
 
+The I/O operations are organized into modules under `src/io`. Each method implements the `IoMethod` trait, so new strategies can be added by providing another implementation.
+
 ## Running the benchmarks
 
 ```bash
