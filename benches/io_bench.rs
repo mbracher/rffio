@@ -1,7 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion};
 use rffio::{read_buffered, read_mmap, write_buffered, write_mmap};
 use tempfile::NamedTempFile;
-use std::io::Write;
 
 const SIZE: usize = 10 * 1024 * 1024; // 10MB
 
