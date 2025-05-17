@@ -1,0 +1,11 @@
+[package]
+name = "rffio"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+memmap2 = "0.7"
+
+[dev-dependencies]
+criterion = "0.5"
+tempfile = "3"
